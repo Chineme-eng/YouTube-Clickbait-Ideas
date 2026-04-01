@@ -9,11 +9,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
       --cream: #F5F0E8;
       --cream-dark: #EDE7D9;
-      --cream-darker: #E3DBCC;
       --ink: #1A1612;
       --ink-mid: #4A4238;
       --ink-light: #7A6E62;
@@ -29,327 +27,101 @@
       --accent-rose: #8B1A3A;
       --accent-rose-light: #F0C8D4;
       --border: rgba(26,22,18,0.12);
-      --shadow: 0 2px 12px rgba(26,22,18,0.07);
       --shadow-hover: 0 6px 24px rgba(26,22,18,0.13);
+      --easy-bg:#E8F5E9; --easy-text:#1B5E20; --easy-border:#A5D6A7;
+      --medeasy-bg:#FFF8E1; --medeasy-text:#7B4F00; --medeasy-border:#FFE082;
+      --medium-bg:#FBE9E7; --medium-text:#7B1F00; --medium-border:#FFAB91;
     }
-
     html { scroll-behavior: smooth; }
+    body { background: var(--cream); color: var(--ink); font-family: 'DM Sans', sans-serif; font-weight: 400; line-height: 1.6; min-height: 100vh; }
 
-    body {
-      background-color: var(--cream);
-      color: var(--ink);
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 400;
-      line-height: 1.6;
-      min-height: 100vh;
-    }
+    /* HEADER */
+    header { background: var(--cream); border-bottom: 1px solid var(--border); padding: 3.5rem 2rem 2rem; text-align: center; }
+    .header-label { display: inline-block; font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; padding: 4px 14px; border: 1px solid var(--accent); border-radius: 2px; }
+    h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 6vw, 3.8rem); font-weight: 600; line-height: 1.15; color: var(--ink); margin-bottom: 0.75rem; }
+    h1 em { font-style: italic; color: var(--accent); }
+    .subtitle { font-size: 15px; color: var(--ink-light); font-weight: 300; max-width: 500px; margin: 0 auto 1.5rem; line-height: 1.7; }
 
-    /* ── HEADER ── */
-    header {
-      background: var(--cream);
-      border-bottom: 1px solid var(--border);
-      padding: 3.5rem 2rem 2.5rem;
-      text-align: center;
-      position: relative;
-    }
+    /* DIFF LEGEND */
+    .diff-legend { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+    .diff-pill { display: flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 500; padding: 5px 12px; border-radius: 20px; border: 1px solid; }
+    .diff-pill.easy    { background: var(--easy-bg);    color: var(--easy-text);    border-color: var(--easy-border); }
+    .diff-pill.medEasy { background: var(--medeasy-bg); color: var(--medeasy-text); border-color: var(--medeasy-border); }
+    .diff-pill.medium  { background: var(--medium-bg);  color: var(--medium-text);  border-color: var(--medium-border); }
+    .diff-dot { width: 6px; height: 6px; border-radius: 50%; }
+    .easy .diff-dot    { background: var(--easy-text); }
+    .medEasy .diff-dot { background: var(--medeasy-text); }
+    .medium .diff-dot  { background: var(--medium-text); }
 
-    .header-label {
-      display: inline-block;
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 1rem;
-      padding: 4px 14px;
-      border: 1px solid var(--accent);
-      border-radius: 2px;
-    }
-
-    h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.4rem, 6vw, 4rem);
-      font-weight: 600;
-      line-height: 1.15;
-      color: var(--ink);
-      margin-bottom: 0.75rem;
-      letter-spacing: -0.01em;
-    }
-
-    h1 em {
-      font-style: italic;
-      color: var(--accent);
-    }
-
-    .subtitle {
-      font-size: 15px;
-      color: var(--ink-light);
-      font-weight: 300;
-      max-width: 480px;
-      margin: 0 auto;
-      line-height: 1.7;
-    }
-
-    /* ── CONTROLS ── */
-    .controls-wrap {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: var(--cream);
-      border-bottom: 1px solid var(--border);
-      padding: 1rem 2rem;
-    }
-
-    .controls-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .search-wrap {
-      position: relative;
-      flex: 1;
-      min-width: 200px;
-    }
-
-    .search-icon {
-      position: absolute;
-      left: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--ink-faint);
-      pointer-events: none;
-    }
-
-    #search {
-      width: 100%;
-      padding: 10px 14px 10px 36px;
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      background: white;
-      color: var(--ink);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 14px;
-      font-weight: 400;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
+    /* CONTROLS */
+    .controls-wrap { position: sticky; top: 0; z-index: 100; background: var(--cream); border-bottom: 1px solid var(--border); padding: 0.85rem 2rem; }
+    .controls-inner { max-width: 1140px; margin: 0 auto; display: flex; flex-direction: column; gap: 9px; }
+    .controls-top { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .search-wrap { position: relative; flex: 1; min-width: 180px; }
+    .search-icon { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--ink-faint); pointer-events: none; }
+    #search { width: 100%; padding: 9px 12px 9px 34px; border: 1px solid var(--border); border-radius: 4px; background: white; color: var(--ink); font-family: 'DM Sans', sans-serif; font-size: 14px; outline: none; transition: border-color 0.2s; }
     #search::placeholder { color: var(--ink-faint); }
     #search:focus { border-color: var(--accent); }
+    #sort { padding: 8px 12px; border: 1px solid var(--border); border-radius: 4px; background: white; color: var(--ink-mid); font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; outline: none; cursor: pointer; }
 
-    .filters {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
-
-    .filter-btn {
-      padding: 8px 14px;
-      border: 1px solid var(--border);
-      border-radius: 3px;
-      background: transparent;
-      color: var(--ink-mid);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 12px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.15s;
-      white-space: nowrap;
-      letter-spacing: 0.02em;
-    }
-
+    .filter-row { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+    .filter-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); margin-right: 2px; white-space: nowrap; }
+    .filter-btn { padding: 6px 13px; border: 1px solid var(--border); border-radius: 3px; background: transparent; color: var(--ink-mid); font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
     .filter-btn:hover { background: var(--cream-dark); color: var(--ink); }
+    .filter-btn.active { background: var(--ink); color: var(--cream); border-color: var(--ink); }
 
-    .filter-btn.active {
-      background: var(--ink);
-      color: var(--cream);
-      border-color: var(--ink);
-    }
+    .diff-btn { padding: 6px 13px; border: 1px solid var(--border); border-radius: 3px; background: transparent; color: var(--ink-mid); font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+    .diff-btn:hover { background: var(--cream-dark); }
+    .diff-btn.active-all    { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+    .diff-btn.active-easy    { background: var(--easy-bg);    color: var(--easy-text);    border-color: var(--easy-border); }
+    .diff-btn.active-medEasy { background: var(--medeasy-bg); color: var(--medeasy-text); border-color: var(--medeasy-border); }
+    .diff-btn.active-medium  { background: var(--medium-bg);  color: var(--medium-text);  border-color: var(--medium-border); }
 
-    /* ── SORT ── */
-    #sort {
-      padding: 9px 12px;
-      border: 1px solid var(--border);
-      border-radius: 3px;
-      background: white;
-      color: var(--ink-mid);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 12px;
-      font-weight: 500;
-      outline: none;
-      cursor: pointer;
-    }
+    /* STATS */
+    .stats-bar { max-width: 1140px; margin: 1rem auto 0.75rem; padding: 0 2rem; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .stats-count { font-size: 13px; color: var(--ink-light); }
+    .stats-count strong { color: var(--ink); font-weight: 500; }
+    .viral-legend { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--ink-light); margin-left: auto; }
 
-    /* ── STATS BAR ── */
-    .stats-bar {
-      max-width: 1100px;
-      margin: 1.25rem auto 1rem;
-      padding: 0 2rem;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+    /* GRID */
+    .grid { max-width: 1140px; margin: 0 auto; padding: 0 2rem 4rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 13px; }
 
-    .stats-count {
-      font-size: 13px;
-      color: var(--ink-light);
-      font-weight: 400;
-    }
+    /* CARD */
+    .card { background: white; border: 1px solid var(--border); border-radius: 7px; padding: 1.2rem 1.35rem 1.1rem; transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s; display: flex; flex-direction: column; gap: 9px; animation: fadeIn 0.25s ease both; }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(5px); } to { opacity:1; transform:translateY(0); } }
+    .card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); border-color: rgba(26,22,18,0.2); }
+    .card-top { display: flex; align-items: flex-start; gap: 9px; }
+    .card-num { font-size: 11px; color: var(--ink-faint); font-weight: 500; min-width: 24px; padding-top: 2px; font-family: 'Playfair Display', serif; font-style: italic; }
+    .card-title { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 600; color: var(--ink); line-height: 1.45; }
+    .card-desc { font-size: 13px; color: var(--ink-mid); line-height: 1.65; font-weight: 300; padding-left: 33px; }
+    .card-footer { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; padding-left: 33px; }
 
-    .stats-count strong {
-      color: var(--ink);
-      font-weight: 500;
-    }
+    .badge { font-size: 10px; font-weight: 500; padding: 3px 8px; border-radius: 2px; letter-spacing: 0.04em; text-transform: uppercase; }
+    .badge-cat-Comparisons { background: var(--accent-blue-light);  color: var(--accent-blue); }
+    .badge-cat-Experiments { background: var(--accent-green-light); color: var(--accent-green); }
+    .badge-cat-Tools       { background: var(--accent-gold-light);  color: var(--accent-gold); }
+    .badge-cat-Reactions   { background: var(--accent-rose-light);  color: var(--accent-rose); }
+    .badge-cat-Challenges  { background: var(--accent-light);       color: var(--accent); }
+    .badge-tool { background: var(--cream-dark); color: var(--ink-mid); }
+    .badge-viral { background: var(--accent); color: white; margin-left: auto; }
 
-    .viral-legend {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 12px;
-      color: var(--ink-light);
-      margin-left: auto;
-    }
+    .badge-diff { font-size: 10px; font-weight: 500; padding: 3px 8px; border-radius: 2px; letter-spacing: 0.04em; text-transform: uppercase; border: 1px solid transparent; }
+    .badge-diff-easy    { background: var(--easy-bg);    color: var(--easy-text);    border-color: var(--easy-border); }
+    .badge-diff-medEasy { background: var(--medeasy-bg); color: var(--medeasy-text); border-color: var(--medeasy-border); }
+    .badge-diff-medium  { background: var(--medium-bg);  color: var(--medium-text);  border-color: var(--medium-border); }
 
-    .flame { color: var(--accent); font-size: 13px; }
+    /* EMPTY */
+    .empty { grid-column: 1/-1; text-align: center; padding: 5rem 2rem; color: var(--ink-faint); }
+    .empty p:first-child { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-style: italic; color: var(--ink-light); margin-bottom: 0.5rem; }
 
-    /* ── GRID ── */
-    .grid {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 2rem 4rem;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 14px;
-    }
+    /* FOOTER */
+    footer { text-align: center; padding: 2rem; font-size: 12px; color: var(--ink-faint); border-top: 1px solid var(--border); letter-spacing: 0.03em; }
 
-    /* ── CARD ── */
-    .card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 1.25rem 1.4rem;
-      transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      animation: fadeIn 0.3s ease both;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .card:hover {
-      box-shadow: var(--shadow-hover);
-      transform: translateY(-2px);
-      border-color: rgba(26,22,18,0.2);
-    }
-
-    .card-top {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-    }
-
-    .card-num {
-      font-size: 11px;
-      color: var(--ink-faint);
-      font-weight: 500;
-      min-width: 26px;
-      padding-top: 2px;
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-    }
-
-    .card-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--ink);
-      line-height: 1.45;
-    }
-
-    .card-desc {
-      font-size: 13px;
-      color: var(--ink-mid);
-      line-height: 1.65;
-      font-weight: 300;
-      padding-left: 36px;
-    }
-
-    .card-footer {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      flex-wrap: wrap;
-      padding-left: 36px;
-      margin-top: 2px;
-    }
-
-    .badge {
-      font-size: 10px;
-      font-weight: 500;
-      padding: 3px 9px;
-      border-radius: 2px;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-    }
-
-    .badge-cat-Comparisons  { background: var(--accent-blue-light);  color: var(--accent-blue); }
-    .badge-cat-Experiments  { background: var(--accent-green-light); color: var(--accent-green); }
-    .badge-cat-Tools        { background: var(--accent-gold-light);  color: var(--accent-gold); }
-    .badge-cat-Reactions    { background: var(--accent-rose-light);  color: var(--accent-rose); }
-    .badge-cat-Challenges   { background: var(--accent-light);       color: var(--accent); }
-
-    .badge-tool {
-      background: var(--cream-dark);
-      color: var(--ink-mid);
-    }
-
-    .badge-viral {
-      background: var(--accent);
-      color: white;
-      margin-left: auto;
-    }
-
-    /* ── EMPTY STATE ── */
-    .empty {
-      grid-column: 1 / -1;
-      text-align: center;
-      padding: 5rem 2rem;
-      color: var(--ink-faint);
-    }
-
-    .empty p:first-child {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.5rem;
-      font-style: italic;
-      color: var(--ink-light);
-      margin-bottom: 0.5rem;
-    }
-
-    /* ── FOOTER ── */
-    footer {
-      text-align: center;
-      padding: 2rem;
-      font-size: 12px;
-      color: var(--ink-faint);
-      border-top: 1px solid var(--border);
-      letter-spacing: 0.03em;
-    }
-
-    /* ── RESPONSIVE ── */
     @media (max-width: 640px) {
       header { padding: 2rem 1.25rem 1.75rem; }
       .controls-wrap { padding: 0.75rem 1.25rem; }
-      .grid { padding: 0 1.25rem 3rem; }
+      .grid { padding: 0 1.25rem 3rem; grid-template-columns: 1fr; }
       .stats-bar { padding: 0 1.25rem; }
-      .grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -358,17 +130,31 @@
 <header>
   <div class="header-label">Content Creator Index</div>
   <h1>100 <em>Viral</em> AI Video Ideas</h1>
-  <p class="subtitle">Free-to-make video concepts about AI tools — comparisons, experiments, reactions, and more. Every idea uses free tiers only.</p>
+  <p class="subtitle">Free-to-make video concepts using AI tools — comparisons, experiments, reactions, and more. Every idea uses free tiers only.</p>
+  <div class="diff-legend">
+    <div class="diff-pill easy">   <span class="diff-dot"></span> Easy — one take, no editing needed </div>
+    <div class="diff-pill medEasy"><span class="diff-dot"></span> Medium Easy — light setup or one extra tool </div>
+    <div class="diff-pill medium"> <span class="diff-dot"></span> Medium — multi-day or multi-tool production </div>
+  </div>
 </header>
 
 <div class="controls-wrap">
   <div class="controls-inner">
-    <div class="search-wrap">
-      <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input type="text" id="search" placeholder="Search ideas, tools, or topics…" />
+    <div class="controls-top">
+      <div class="search-wrap">
+        <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" id="search" placeholder="Search ideas, tools, categories…" />
+      </div>
+      <select id="sort">
+        <option value="default">Order: Default</option>
+        <option value="az">Title A–Z</option>
+        <option value="cat">By Category</option>
+        <option value="diff">By Difficulty</option>
+      </select>
     </div>
-    <div class="filters" id="filters">
-      <button class="filter-btn active" data-cat="all">All</button>
+    <div class="filter-row">
+      <span class="filter-label">Category</span>
+      <button class="filter-btn active" data-cat="all">All 100</button>
       <button class="filter-btn" data-cat="Comparisons">Comparisons</button>
       <button class="filter-btn" data-cat="Experiments">Experiments</button>
       <button class="filter-btn" data-cat="Tools">Tools</button>
@@ -376,17 +162,19 @@
       <button class="filter-btn" data-cat="Challenges">Challenges</button>
       <button class="filter-btn" data-cat="viral">🔥 Viral Only</button>
     </div>
-    <select id="sort">
-      <option value="default">Order: Default</option>
-      <option value="az">Title A–Z</option>
-      <option value="cat">By Category</option>
-    </select>
+    <div class="filter-row">
+      <span class="filter-label">Difficulty</span>
+      <button class="diff-btn active-all" data-diff="all">All levels</button>
+      <button class="diff-btn" data-diff="easy">Easy</button>
+      <button class="diff-btn" data-diff="medEasy">Medium Easy</button>
+      <button class="diff-btn" data-diff="medium">Medium</button>
+    </div>
   </div>
 </div>
 
 <div class="stats-bar">
   <p class="stats-count" id="stats-count">Showing <strong>100</strong> ideas</p>
-  <div class="viral-legend"><span class="flame">🔥</span> = high viral potential</div>
+  <div class="viral-legend"><span>🔥</span> = high viral potential</div>
 </div>
 
 <div class="grid" id="grid"></div>
@@ -395,113 +183,131 @@
 
 <script>
 const ideas = [
-  // ── COMPARISONS ──
-  { title: "Claude vs ChatGPT: Who writes better code?", desc: "Give both AIs the exact same coding challenge. Compare correctness, style, and explanation quality side-by-side. Let viewers vote on the winner.", cat: "Comparisons", tool: "Claude + ChatGPT", viral: true },
-  { title: "ChatGPT failed this — Claude nailed it", desc: "Find a task where ChatGPT struggles (long context, nuanced writing) and show Claude handling it flawlessly. Classic underdog format that drives comments.", cat: "Comparisons", tool: "Claude + ChatGPT", viral: true },
-  { title: "Gemini vs Claude: Who writes a better cover letter?", desc: "Same job posting, two AIs. Read both letters aloud and ask viewers which one they'd actually send. Relatable stakes.", cat: "Comparisons", tool: "Gemini + Claude", viral: false },
-  { title: "What does Gemini actually do that Claude can't?", desc: "Explore Gemini's unique advantages: real-time Google search, image understanding, and Workspace integration. Honest, useful, shareable.", cat: "Comparisons", tool: "Gemini + Claude", viral: true },
-  { title: "Midjourney vs DALL·E vs Adobe Firefly: Same prompt, 3 worlds", desc: "Type one creative prompt into all three. Compare artistry, accuracy, and style. A visual feast that viewers screenshot and share.", cat: "Comparisons", tool: "Midjourney + DALL-E + Firefly", viral: true },
-  { title: "ChatGPT, Claude & Gemini solve the same impossible riddle", desc: "Give all three a famously tricky logic puzzle. Compare their reasoning step by step. The differences reveal a lot about each AI's personality.", cat: "Comparisons", tool: "Multiple", viral: true },
-  { title: "Perplexity vs Google: Which gives better answers?", desc: "Run 10 real search queries through both. Time each one and score accuracy. This will make people reconsider their browser homepage.", cat: "Comparisons", tool: "Perplexity + Google", viral: true },
-  { title: "Adobe Firefly vs Canva AI: Free image generation battle", desc: "Both tools are completely free. Test them on the same 5 prompts — portraits, landscapes, logos — and vote on the results.", cat: "Comparisons", tool: "Adobe Firefly + Canva", viral: false },
-  { title: "I asked every AI the same dark question — their answers shocked me", desc: "Ask a provocative-but-safe philosophical question to Claude, ChatGPT, Gemini, and Grok. The contrast in how they respond is fascinating and very shareable.", cat: "Comparisons", tool: "Multiple", viral: true },
-  { title: "Claude vs. a Harvard grad: Who writes a better essay?", desc: "Same prompt, same time limit. Give the essay to viewers without labels and ask them to vote. Reveal at the end which was which.", cat: "Comparisons", tool: "Claude", viral: true },
-  { title: "Suno vs Udio: Which AI makes better music?", desc: "Give both the same music brief — genre, mood, tempo. Play the results and have viewers rate them. Music fans will share this everywhere.", cat: "Comparisons", tool: "Suno + Udio", viral: true },
-  { title: "AI vs. human therapist: Same scenario, different advice", desc: "Present an anonymized emotional situation to both an AI (Claude) and a licensed therapist friend. Compare the empathy and usefulness of each response.", cat: "Comparisons", tool: "Claude", viral: true },
-  { title: "ElevenLabs vs Murf: Best free AI voice generator?", desc: "Clone the same voice sample in both tools and compare naturalness, emotion, and clarity. Perfect for podcasters and content creators.", cat: "Comparisons", tool: "ElevenLabs + Murf", viral: false },
-  { title: "Claude vs ChatGPT: Who gives better life advice?", desc: "Submit real dilemmas from your audience and compare the responses. Intimate, vulnerable content format that explodes in comments.", cat: "Comparisons", tool: "Claude + ChatGPT", viral: true },
-  { title: "Gamma vs Beautiful.ai: Best free AI presentation maker?", desc: "Build the same 10-slide pitch deck in both tools from scratch. Rate the design quality, ease of use, and output you'd actually send to a client.", cat: "Comparisons", tool: "Gamma + Beautiful.ai", viral: false },
+  // ── COMPARISONS (18) ──
+  { title:"Claude vs ChatGPT: Who writes better code?", desc:"Give both AIs the exact same coding challenge. Compare correctness, style, and explanation quality side-by-side on screen. Let viewers vote in the comments.", cat:"Comparisons", tool:"Claude + ChatGPT", viral:true, diff:"easy" },
+  { title:"ChatGPT failed this — Claude nailed it", desc:"Find a task where ChatGPT clearly struggles — long context, nuanced writing — and show Claude handling it flawlessly. The underdog format drives enormous comment traffic.", cat:"Comparisons", tool:"Claude + ChatGPT", viral:true, diff:"easy" },
+  { title:"Gemini vs Claude: Who writes a better cover letter?", desc:"Same job posting, two AIs. Read both letters aloud on camera and ask viewers which one they'd actually send to a real employer. Career content always converts.", cat:"Comparisons", tool:"Gemini + Claude", viral:false, diff:"easy" },
+  { title:"What does Gemini actually do that Claude can't?", desc:"Honestly explore Gemini's unique strengths — real-time Google search, Workspace integration, image understanding — versus Claude's document and reasoning depth.", cat:"Comparisons", tool:"Gemini + Claude", viral:true, diff:"easy" },
+  { title:"Midjourney vs DALL·E vs Adobe Firefly: Same prompt, 3 worlds", desc:"Type one creative prompt into all three image generators. Compare artistry, accuracy, and style in a side-by-side. A visual feast viewers screenshot and share.", cat:"Comparisons", tool:"Midjourney + DALL-E + Firefly", viral:true, diff:"easy" },
+  { title:"ChatGPT, Claude & Gemini solve the same impossible riddle", desc:"Give all three a famously tricky logic puzzle. Compare their step-by-step reasoning. The personality differences between models always surprise people.", cat:"Comparisons", tool:"Multiple", viral:true, diff:"easy" },
+  { title:"Perplexity vs Google: Which gives better answers?", desc:"Run 10 real search queries through both, timed. Score accuracy, depth, and citation quality. This will make people reconsider their browser homepage.", cat:"Comparisons", tool:"Perplexity + Google", viral:true, diff:"easy" },
+  { title:"Adobe Firefly vs Canva AI: Free image generation battle", desc:"Both completely free. Test on the same 5 prompts — portraits, landscapes, logos — then let viewers vote on the winner. Great SEO, highly shareable.", cat:"Comparisons", tool:"Adobe Firefly + Canva", viral:false, diff:"easy" },
+  { title:"I asked every AI the same dark question — the answers shocked me", desc:"Ask a provocative-but-safe philosophical question to Claude, ChatGPT, Gemini, and Grok. The contrast in how each handles it is fascinating and very shareable.", cat:"Comparisons", tool:"Multiple", viral:true, diff:"easy" },
+  { title:"Claude vs. a Harvard grad: Who writes a better essay?", desc:"Same prompt, same time limit. Show viewers both essays without labels and ask them to vote. Reveal the truth at the end. Engagement through pure mystery.", cat:"Comparisons", tool:"Claude", viral:true, diff:"medEasy" },
+  { title:"Suno vs Udio: Which AI makes better music?", desc:"Same music brief — genre, mood, tempo — submitted to both. Play the results and have viewers rate each one. Music fans share this everywhere.", cat:"Comparisons", tool:"Suno + Udio", viral:true, diff:"easy" },
+  { title:"ElevenLabs vs Murf: Best free AI voice generator?", desc:"Clone the same voice sample in both tools and compare naturalness, emotion, and clarity on the same sentence. Essential for any podcaster or voiceover creator.", cat:"Comparisons", tool:"ElevenLabs + Murf", viral:false, diff:"easy" },
+  { title:"Claude vs ChatGPT: Who gives better life advice?", desc:"Submit real dilemmas from your audience and compare the responses side by side. This intimate, vulnerable content format floods the comments section.", cat:"Comparisons", tool:"Claude + ChatGPT", viral:true, diff:"easy" },
+  { title:"Gamma vs Beautiful.ai: Best free AI presentation maker?", desc:"Build the same 10-slide pitch deck in both tools from scratch. Rate design quality, ease of use, and whether you'd actually send it to a client.", cat:"Comparisons", tool:"Gamma + Beautiful.ai", viral:false, diff:"medEasy" },
+  { title:"AI vs. human therapist: Same scenario, completely different advice", desc:"Present an anonymized emotional situation to both Claude and a therapist friend. Compare empathy, depth, and practical guidance. Widely relatable and thought-provoking.", cat:"Comparisons", tool:"Claude", viral:true, diff:"medEasy" },
+  { title:"NotebookLM vs Claude: Which explains a research paper better?", desc:"Feed the same dense academic PDF to both tools and ask for a plain-English summary. Compare accuracy, clarity, and which one you'd actually trust for studying.", cat:"Comparisons", tool:"NotebookLM + Claude", viral:false, diff:"easy" },
+  { title:"Free AI vs paid AI: Is the upgrade actually worth it?", desc:"Run identical tasks through free tiers of Claude, ChatGPT, and Gemini, then compare honestly. The perfect video for people on the fence about subscribing.", cat:"Comparisons", tool:"Multiple", viral:true, diff:"easy" },
+  { title:"Which AI writes the best cold email? I tested 4 of them", desc:"Give Claude, ChatGPT, Gemini, and Copilot the same cold outreach brief. Rate each email on personalization, hook, and call to action. Useful for every professional.", cat:"Comparisons", tool:"Multiple", viral:false, diff:"easy" },
 
-  // ── EXPERIMENTS ──
-  { title: "I let AI plan my entire week — here's what happened", desc: "Claude schedules your meals, workouts, work blocks, and social time for 7 days. Live it out and document what worked, what was absurd, and what you'll keep.", cat: "Experiments", tool: "Claude", viral: true },
-  { title: "I used AI to start a business — day 1 results", desc: "Use Claude for the business plan, Canva AI for the logo, and free tools to launch. Document everything from 8am to midnight. Entrepreneurs will binge this.", cat: "Experiments", tool: "Claude + Canva", viral: true },
-  { title: "I gave AI my worst startup idea — it made it brilliant", desc: "Pitch a truly terrible business concept to Claude and watch it build a real go-to-market strategy, pitch deck outline, and revenue model from scratch.", cat: "Experiments", tool: "Claude", viral: true },
-  { title: "I used AI to roast my own resume — and it was brutal", desc: "Upload your real resume to Claude and ask for completely honest, no-mercy feedback. The cringe and the insight make this instantly shareable.", cat: "Experiments", tool: "Claude", viral: true },
-  { title: "AI fixed my terrible PowerPoint in 10 minutes", desc: "Show a genuinely bad slide deck you made, then use Gamma AI to rebuild it. The before/after reveal is the whole video — and it's always satisfying.", cat: "Experiments", tool: "Gamma", viral: true },
-  { title: "I used Notion AI for one full workday — honest review", desc: "Replace every note, summary, meeting recap, and task list with Notion AI. Track time saved, quality of output, and what genuinely surprised you.", cat: "Experiments", tool: "Notion AI", viral: false },
-  { title: "AI wrote my apology text — and it actually worked", desc: "Let Claude write a heartfelt apology for a real situation. Document the conversation that followed. Emotional stakes keep people watching to the end.", cat: "Experiments", tool: "Claude", viral: true },
-  { title: "I built a website in one hour using only free AI tools", desc: "Claude writes the copy, Canva AI makes the visuals, and a free builder puts it online. Full one-hour real-time challenge. Incredibly satisfying to watch.", cat: "Experiments", tool: "Claude + Canva", viral: true },
-  { title: "I gave AI my financial situation — here's the plan it made", desc: "Share anonymized income, expenses, and goals with Claude and ask for a real savings and investment plan. Vulnerable, useful, and financially relatable.", cat: "Experiments", tool: "Claude", viral: true },
-  { title: "AI generated my entire podcast episode from scratch", desc: "Claude writes the script, ElevenLabs generates the voice, and Descript handles editing. Publish it. Reveal which listeners noticed it was AI-made.", cat: "Experiments", tool: "Claude + ElevenLabs", viral: true },
-  { title: "I asked AI to help me go viral — did it actually work?", desc: "Use Claude to engineer a post: hook, structure, platform optimization, and timing. Post it live and document the real reach and engagement results.", cat: "Experiments", tool: "Claude", viral: true },
-  { title: "This free AI tool makes studying 10x faster — I tested it", desc: "Take a 60-page textbook chapter and run it through NotebookLM. Generate a summary, quiz, and study guide. Compare with traditional studying in a timed test.", cat: "Experiments", tool: "NotebookLM", viral: true },
-  { title: "I used AI to write all my emails for one week", desc: "Every email you send goes through Claude first. Track responses, reply rates, and whether people noticed anything different. The results might surprise you.", cat: "Experiments", tool: "Claude", viral: false },
-  { title: "AI designed my entire room — I actually love it", desc: "Use free AI interior design tools to redesign a room in your house. Order one of the suggested items and document the transformation.", cat: "Experiments", tool: "RoomGPT", viral: true },
-  { title: "I tried to catch AI lying to me — here's what happened", desc: "Deliberately feed Claude false premises and see how it handles them. Push its limits with trick questions. Educational and deeply fascinating.", cat: "Experiments", tool: "Claude", viral: true },
-  { title: "I used AI to negotiate a lower bill — it worked", desc: "Let Claude write a negotiation script for a real bill (phone, internet, etc.). Call the company live on camera and use the script. Practical and gripping.", cat: "Experiments", tool: "Claude", viral: true },
-  { title: "AI planned my perfect vacation for $500", desc: "Give Claude your budget, dates, and dream vibe. Let it build a full itinerary — flights, accommodation, food. Then book it and document what happens.", cat: "Experiments", tool: "Claude + Perplexity", viral: true },
-  { title: "I used AI to meal prep for the whole month", desc: "Let Claude generate a full month of meals based on your dietary goals and budget, then create a shopping list. Actually cook the first week and review it.", cat: "Experiments", tool: "Claude", viral: false },
-  { title: "AI wrote my Tinder bio — I got 10x more matches", desc: "Compare your real dating profile to one crafted by Claude. A/B test them over two weeks. Show the match data. People will watch to the very end.", cat: "Experiments", tool: "Claude", viral: true },
+  // ── EXPERIMENTS (22) ──
+  { title:"I let AI plan my entire week — here's what happened", desc:"Claude schedules your meals, workouts, work blocks, and social time for 7 days. Live it out and document what worked, what was absurd, and what you'll actually keep.", cat:"Experiments", tool:"Claude", viral:true, diff:"medium" },
+  { title:"I used AI to start a business — day 1 results", desc:"Claude for the business plan, Canva AI for the logo, free tools to launch. Document everything from 8am to midnight. Entrepreneurs will binge this start to finish.", cat:"Experiments", tool:"Claude + Canva", viral:true, diff:"medium" },
+  { title:"I gave AI my worst startup idea — it made it brilliant", desc:"Pitch a truly terrible business concept to Claude and watch it build a real go-to-market strategy, pitch deck outline, and revenue model from scratch. Funny and useful.", cat:"Experiments", tool:"Claude", viral:true, diff:"easy" },
+  { title:"I used AI to roast my own resume — and it was brutal", desc:"Upload your real resume to Claude and ask for completely honest, no-mercy feedback. The cringe mixed with genuine insight makes this instantly shareable.", cat:"Experiments", tool:"Claude", viral:true, diff:"easy" },
+  { title:"AI fixed my terrible PowerPoint in 10 minutes", desc:"Show a genuinely bad slide deck you already made, then use Gamma AI to rebuild it from the same content. The before/after reveal is always satisfying to watch.", cat:"Experiments", tool:"Gamma", viral:true, diff:"medEasy" },
+  { title:"I used Notion AI for one full workday — honest review", desc:"Replace every note, summary, meeting recap, and task list with Notion AI. Track time saved, quality of output, and what genuinely surprised you by end of day.", cat:"Experiments", tool:"Notion AI", viral:false, diff:"medium" },
+  { title:"AI wrote my apology text — and it actually worked", desc:"Let Claude write a heartfelt apology for a real situation. Send it. Document the conversation that followed. Emotional stakes keep people watching till the final screenshot.", cat:"Experiments", tool:"Claude", viral:true, diff:"easy" },
+  { title:"I built a website in one hour using only free AI tools", desc:"Claude writes the copy, Canva AI makes the visuals, a free builder puts it online. Real-time one-hour challenge. Incredibly satisfying to watch from start to finish.", cat:"Experiments", tool:"Claude + Canva", viral:true, diff:"medium" },
+  { title:"I gave AI my financial situation — here's the plan it made", desc:"Share anonymized income, expenses, and goals with Claude and ask for a real savings and investment roadmap. Vulnerable, useful, and relatable for millions of people.", cat:"Experiments", tool:"Claude", viral:true, diff:"easy" },
+  { title:"AI generated my entire podcast episode from scratch", desc:"Claude writes the script, ElevenLabs generates the voice, Descript handles editing. Publish it. Reveal how many listeners noticed it was AI-made. Meta and fascinating.", cat:"Experiments", tool:"Claude + ElevenLabs", viral:true, diff:"medium" },
+  { title:"I asked AI to help me go viral — did it actually work?", desc:"Use Claude to engineer a post: hook, structure, platform optimization, and timing. Post it live and document real reach and engagement 48 hours later.", cat:"Experiments", tool:"Claude", viral:true, diff:"medEasy" },
+  { title:"I used AI to write all my emails for one week", desc:"Every email you send goes through Claude first. Track response rates, tone differences, and whether recipients noticed anything different. Surprisingly revealing.", cat:"Experiments", tool:"Claude", viral:false, diff:"medium" },
+  { title:"AI designed my entire room — I actually love it", desc:"Use free AI interior design tools to reimagine a room in your house. Order one of the suggested items. Document the transformation from prompt to delivered package.", cat:"Experiments", tool:"RoomGPT", viral:true, diff:"medEasy" },
+  { title:"I tried to catch AI lying to me — here's what happened", desc:"Deliberately feed Claude false premises and see how it catches them. Push its limits with misleading questions. Educational, surprising, and deeply watchable.", cat:"Experiments", tool:"Claude", viral:true, diff:"easy" },
+  { title:"I used AI to negotiate a lower bill — it worked", desc:"Let Claude write a negotiation script for a real bill — phone, internet, cable. Call the company live on camera and use the script word for word. Gripping and practical.", cat:"Experiments", tool:"Claude", viral:true, diff:"medEasy" },
+  { title:"AI planned my perfect vacation for $500", desc:"Give Claude your budget, dates, and dream vibe. Let it build a full itinerary — flights, stays, food, activities. Then actually book it and document what happens.", cat:"Experiments", tool:"Claude + Perplexity", viral:true, diff:"medium" },
+  { title:"I used AI to meal prep for the whole month", desc:"Claude generates a full month of meals based on your dietary goals and budget, then creates a detailed shopping list. Actually cook the first week and review each recipe.", cat:"Experiments", tool:"Claude", viral:false, diff:"medium" },
+  { title:"AI wrote my Tinder bio — I got 10x more matches", desc:"Compare your real dating profile to Claude's version with actual data — match rate and conversation quality tracked for one week each. People watch to the very last graph.", cat:"Experiments", tool:"Claude", viral:true, diff:"medium" },
+  { title:"I generated 30 days of social content in one hour using AI", desc:"Use Claude to build a full social media content calendar — captions, hooks, hashtags, and ideas for 30 days across platforms. Show the entire process in real time.", cat:"Experiments", tool:"Claude", viral:true, diff:"easy" },
+  { title:"I let AI be my nutritionist for two weeks", desc:"Claude designs your meal plan, tracks your macros, and adjusts weekly based on how you're feeling. Document every meal and your energy levels throughout.", cat:"Experiments", tool:"Claude", viral:false, diff:"medium" },
+  { title:"AI helped me prep for a hard conversation — and it went well", desc:"Use Claude to roleplay a difficult real-world conversation — with a boss, a friend, a parent. Film your prep session and then the real outcome afterward.", cat:"Experiments", tool:"Claude", viral:true, diff:"easy" },
+  { title:"I used AI to write a children's book — it came out beautiful", desc:"Claude writes the story, Adobe Firefly illustrates every page, you compile it into a PDF and read it aloud. The creation process alone makes a compelling video.", cat:"Experiments", tool:"Claude + Firefly", viral:true, diff:"medEasy" },
 
-  // ── TOOLS ──
-  { title: "Suno AI turned me into a rapper in 5 minutes", desc: "Write (or let Claude write) rap lyrics, drop them into Suno, and react in real time to your AI rap career. Play it for a friend or family member.", cat: "Tools", tool: "Suno AI", viral: true },
-  { title: "ElevenLabs cloned my voice in 30 seconds", desc: "Upload a voice sample, clone it for free, then have it read something you'd never actually say. The uncanny valley moment always goes viral.", cat: "Tools", tool: "ElevenLabs", viral: true },
-  { title: "Runway ML brought my photo to life — for free", desc: "Use Runway's free tier to animate a still image. React in real time as your picture starts moving. Great for nostalgia with old photos.", cat: "Tools", tool: "Runway ML", viral: true },
-  { title: "NotebookLM made a podcast out of my research notes", desc: "Upload notes, a PDF, or a research paper to Google's NotebookLM and generate an AI audio discussion. React to two AI voices debating your topic.", cat: "Tools", tool: "NotebookLM", viral: true },
-  { title: "Character.AI let me talk to Einstein — here's what he said", desc: "Use Character.AI's free tier to interview famous historical figures about modern topics. Einstein on TikTok. Aristotle on social media. Pure gold.", cat: "Tools", tool: "Character.AI", viral: true },
-  { title: "Perplexity AI is replacing Google for me — here's why", desc: "Run 10 real searches through both. Show the depth, citations, and follow-up questions Perplexity offers vs. Google's link list. People will install it immediately.", cat: "Tools", tool: "Perplexity", viral: true },
-  { title: "HeyGen made a video of me speaking Japanese", desc: "Use HeyGen's free trial to dub yourself in a foreign language with lip-sync. React to seeing yourself speak a language you don't know.", cat: "Tools", tool: "HeyGen", viral: true },
-  { title: "AI turned my selfie into a Studio Ghibli scene", desc: "Use free image tools like Bing Image Creator or Adobe Firefly to transform a selfie into a Ghibli-style illustration. Walk through the prompts live.", cat: "Tools", tool: "Bing Image Creator", viral: true },
-  { title: "I made a full song about my dog using Suno AI", desc: "Write silly, heartfelt lyrics about your pet, generate a professional-sounding song on Suno, and play it while filming your pet's reaction.", cat: "Tools", tool: "Suno AI", viral: true },
-  { title: "This AI tool turns any YouTube video into a blog post", desc: "Grab a transcript, paste it into Claude, and generate a fully formatted blog article with headings, SEO, and a call to action. Huge for content repurposing.", cat: "Tools", tool: "Claude", viral: false },
-  { title: "I used Gamma to build a pitch deck — investors would bite", desc: "Turn a one-sentence startup idea into a 12-slide pitch deck using Gamma's free AI. React to each slide live and rate how professional it actually looks.", cat: "Tools", tool: "Gamma", viral: true },
-  { title: "Kling AI made a video from my photo — it's wild", desc: "Use Kling AI to transform a still photo into a short video clip. The motion effects are genuinely surreal. React in real time.", cat: "Tools", tool: "Kling AI", viral: true },
-  { title: "This AI reads contracts so you don't have to", desc: "Paste a real lease, terms of service, or freelance contract into Claude and ask it to flag anything suspicious or unfair. Genuinely useful and eye-opening.", cat: "Tools", tool: "Claude", viral: true },
-  { title: "Adobe Firefly generated my logo for free in 2 minutes", desc: "Describe your brand in plain English and let Firefly generate logo concepts for free. Compare to Canva AI and pick the best. Great for small businesses.", cat: "Tools", tool: "Adobe Firefly", viral: false },
-  { title: "I used AI to create a children's book — it's actually good", desc: "Claude writes the story and DALL·E or Firefly illustrates each page. Compile it into a PDF. The end result will genuinely surprise you.", cat: "Tools", tool: "Claude + DALL-E", viral: true },
-  { title: "This free AI voice tool made my podcast sound professional", desc: "Use Adobe Podcast's free AI audio enhancer to clean up a raw, noisy recording. Play the before and after back-to-back. Audio people will share this everywhere.", cat: "Tools", tool: "Adobe Podcast", viral: true },
-  { title: "I used Descript to edit video just by editing text", desc: "Record a raw talking-head video, upload to Descript's free tier, and delete filler words by deleting text. Show the entire workflow in real time.", cat: "Tools", tool: "Descript", viral: false },
-  { title: "This AI tool makes flashcards from any PDF", desc: "Upload a dense academic paper or textbook chapter into a free AI flashcard tool and generate a full study set. Test yourself live on camera.", cat: "Tools", tool: "NotebookLM", viral: false },
-  { title: "I generated 30 days of social content in one hour using AI", desc: "Use Claude to build a full social media content calendar — captions, hooks, hashtags, and post ideas for 30 days. Show the entire process.", cat: "Tools", tool: "Claude", viral: true },
-  { title: "Canva's free AI made me a magazine-quality post", desc: "Use Canva AI's text-to-image and Magic Write to design a full social media post from a blank canvas. Viewers will open Canva the moment it ends.", cat: "Tools", tool: "Canva", viral: false },
+  // ── TOOLS (22) ──
+  { title:"Suno AI turned me into a rapper in 5 minutes", desc:"Write (or let Claude write) rap lyrics, drop them into Suno, and react in real time to your AI rap career. Play the track for a friend or family member on camera.", cat:"Tools", tool:"Suno AI", viral:true, diff:"easy" },
+  { title:"ElevenLabs cloned my voice in 30 seconds", desc:"Upload a voice sample, clone it for free, then have it read something you'd never say. The uncanny valley reaction moment almost always goes viral.", cat:"Tools", tool:"ElevenLabs", viral:true, diff:"easy" },
+  { title:"Runway ML brought my old photo to life — for free", desc:"Use Runway's free tier to animate a still image. React in real time as your picture starts moving. Old family photos make this especially emotional and shareable.", cat:"Tools", tool:"Runway ML", viral:true, diff:"easy" },
+  { title:"NotebookLM made a podcast out of my research notes", desc:"Upload notes, a PDF, or an article to Google's NotebookLM and generate an AI audio discussion. React to two AI voices debating your own material out loud.", cat:"Tools", tool:"NotebookLM", viral:true, diff:"easy" },
+  { title:"Character.AI let me talk to Einstein — here's what he said", desc:"Use Character.AI's free tier to interview historical figures about modern topics. Einstein on social media, Aristotle on AI — the contrast is endlessly entertaining.", cat:"Tools", tool:"Character.AI", viral:true, diff:"easy" },
+  { title:"Perplexity AI is replacing Google for me — here's why", desc:"Run 10 real searches through both. Show the depth, citations, and follow-up questions Perplexity offers. By the end, viewers will have a new default search engine.", cat:"Tools", tool:"Perplexity", viral:true, diff:"easy" },
+  { title:"HeyGen made a video of me speaking Japanese", desc:"Use HeyGen's free trial to dub yourself in a foreign language with accurate lip-sync. React to seeing yourself speak fluently in a language you've never studied.", cat:"Tools", tool:"HeyGen", viral:true, diff:"easy" },
+  { title:"AI turned my selfie into a Studio Ghibli scene", desc:"Use free image tools like Bing Image Creator or Adobe Firefly to transform a selfie into a Ghibli-style illustration. Walk through prompts so viewers can copy you exactly.", cat:"Tools", tool:"Bing Image Creator", viral:true, diff:"easy" },
+  { title:"I made a full song about my dog using Suno AI", desc:"Write heartfelt or silly lyrics about your pet, generate a professional track on Suno, and film your pet's completely unimpressed reaction to their theme song.", cat:"Tools", tool:"Suno AI", viral:true, diff:"easy" },
+  { title:"This AI tool turns any YouTube video into a blog post", desc:"Grab a transcript, paste it into Claude, and generate a fully formatted blog article with headings, SEO optimization, and a call to action. Gold for content repurposers.", cat:"Tools", tool:"Claude", viral:false, diff:"easy" },
+  { title:"I used Gamma to build a pitch deck — investors would bite", desc:"Turn a one-sentence startup idea into a 12-slide pitch deck using Gamma's free AI. React to each slide live and honestly rate how professional it actually looks.", cat:"Tools", tool:"Gamma", viral:true, diff:"easy" },
+  { title:"Kling AI made a video from my photo — it's genuinely wild", desc:"Use Kling AI to transform a still photo into a short, moving video clip. The motion effects are surreal. React in real time and show your full process.", cat:"Tools", tool:"Kling AI", viral:true, diff:"easy" },
+  { title:"This AI reads contracts so you don't have to", desc:"Paste a real lease, terms of service, or freelance contract into Claude and ask it to flag anything suspicious or unfair. Useful, eye-opening, and widely relatable.", cat:"Tools", tool:"Claude", viral:true, diff:"easy" },
+  { title:"This free AI voice tool made my podcast sound professional", desc:"Use Adobe Podcast's free AI audio enhancer to clean up a raw, noisy recording. Play the before and after back to back. Audio creators will share this everywhere.", cat:"Tools", tool:"Adobe Podcast", viral:true, diff:"easy" },
+  { title:"I used Descript to edit a video just by editing text", desc:"Record a raw talking-head video, upload to Descript's free tier, and delete filler words by simply deleting text. Show the full workflow live — it blows people's minds.", cat:"Tools", tool:"Descript", viral:false, diff:"medEasy" },
+  { title:"Canva's free AI made me a magazine-quality social post", desc:"Use Canva AI's text-to-image and Magic Write to design a polished post from a blank canvas in under 10 minutes. Viewers will open Canva the moment the video ends.", cat:"Tools", tool:"Canva", viral:false, diff:"easy" },
+  { title:"This AI tool makes flashcards from any PDF instantly", desc:"Upload a dense textbook chapter or research paper into NotebookLM and generate a full study set. Test yourself live on camera. Students will save this video.", cat:"Tools", tool:"NotebookLM", viral:false, diff:"easy" },
+  { title:"This AI turns your rambling voice note into a polished email", desc:"Record a messy voice memo about a situation, feed the transcript to Claude, and watch it become a clean, professional email. Workflow gold for busy people.", cat:"Tools", tool:"Claude", viral:true, diff:"easy" },
+  { title:"Adobe Firefly generated my logo for free in 2 minutes", desc:"Describe your brand in plain English, let Firefly generate logo concepts at zero cost, and compare to Canva AI's output. Perfect starting point for small business owners.", cat:"Tools", tool:"Adobe Firefly", viral:false, diff:"easy" },
+  { title:"I used AI to summarize an entire book in 5 minutes", desc:"Feed a classic book's key ideas into Claude and ask it to distill the core arguments and lessons into a one-page read. Book lovers will debate you in the comments.", cat:"Tools", tool:"Claude", viral:true, diff:"easy" },
+  { title:"I used Claude to write a job posting — it got 80+ applicants", desc:"Show how Claude rewrites a boring, generic job description into something compelling that actually attracts the right candidates. Useful for any hiring manager.", cat:"Tools", tool:"Claude", viral:false, diff:"easy" },
+  { title:"This free AI tool removes your background and replaces it with anything", desc:"Use a free AI background removal and replacement tool to put yourself in any setting — a beach, the moon, the Eiffel Tower. Simple and incredibly fun to watch.", cat:"Tools", tool:"Canva + Remove.bg", viral:true, diff:"easy" },
 
-  // ── REACTIONS ──
-  { title: "Claude just did something I didn't expect…", desc: "Ask Claude a deep, open-ended philosophical question or put it in an emotionally complex situation. Capture your genuine, unscripted reaction to its response.", cat: "Reactions", tool: "Claude", viral: true },
-  { title: "The scariest thing I asked Claude — and what it said", desc: "Push Claude's limits with dark hypotheticals, existential questions, or uncomfortable truths. The answer will make viewers think — and share.", cat: "Reactions", tool: "Claude", viral: true },
-  { title: "I told AI my life story — here's what it said about me", desc: "Write a detailed biography of your life and feed it to Claude. Ask it to analyze your personality, patterns, and likely future. Raw and personal.", cat: "Reactions", tool: "Claude", viral: true },
-  { title: "AI analyzed my social media — and exposed who I really am", desc: "Copy your best and worst posts into Claude and ask for a psychological profile. The accuracy is unsettling and deeply shareable.", cat: "Reactions", tool: "Claude", viral: true },
-  { title: "Can AI feel emotions? I tested Claude for an hour", desc: "Probe Claude with emotional scenarios, personal stories, and hard questions about consciousness. Analyze its responses for empathy, deflection, or something more.", cat: "Reactions", tool: "Claude", viral: true },
-  { title: "The AI that predicted my future — and was weirdly right", desc: "Use Claude to make probabilistic predictions about your career, relationships, and life in 5 years based on your current situation. Revisit in a follow-up video.", cat: "Reactions", tool: "Claude", viral: true },
-  { title: "I let AI be my life coach for one day — brutal honesty", desc: "Ask Claude to coach you through your biggest challenge right now. No filters, just honest questions and feedback. Emotionally compelling content.", cat: "Reactions", tool: "Claude", viral: true },
-  { title: "AI read my journal and here's what it found", desc: "Paste anonymized journal entries into Claude and ask it to identify patterns, recurring fears, and growth opportunities. Intimate and relatable.", cat: "Reactions", tool: "Claude", viral: true },
-  { title: "I asked AI what my biggest mistake was — and it was right", desc: "Describe your biggest regret to Claude in detail. Ask it to analyze what went wrong and what you could have done differently. Vulnerable storytelling.", cat: "Reactions", tool: "Claude", viral: true },
-  { title: "AI described my personality just from my writing style", desc: "Feed Claude a sample of your own writing — texts, emails, essays — and ask it to profile your personality. Eerily accurate results.", cat: "Reactions", tool: "Claude", viral: true },
-  { title: "I showed my parents ChatGPT for the first time — their reaction", desc: "Film an unscripted session where a parent or grandparent interacts with AI for the first time. Pure, genuine reaction content.", cat: "Reactions", tool: "ChatGPT", viral: true },
-  { title: "AI wrote my breakup text — my ex actually responded better", desc: "Give Claude the context, let it craft the message, and document the conversation that followed. Emotional and instantly relatable.", cat: "Reactions", tool: "Claude", viral: true },
-  { title: "I asked AI to judge my cooking — it was not kind", desc: "Photograph your home-cooked meal and describe it to Claude in detail. Ask for an honest restaurant-style critique. Funny and food content always performs.", cat: "Reactions", tool: "Claude", viral: true },
-  { title: "What happens when AI writes a speech for your wedding?", desc: "Generate a best man or maid of honor speech using Claude. Read it aloud with real emotion. Then have someone who knows the couple rate how personal it feels.", cat: "Reactions", tool: "Claude", viral: true },
-  { title: "AI told me what career I should actually be in", desc: "Describe your skills, interests, values, and current job to Claude. Ask it what you should really be doing. This one gets people thinking — and sharing.", cat: "Reactions", tool: "Claude", viral: true },
+  // ── REACTIONS (18) ──
+  { title:"Claude just did something I didn't expect…", desc:"Ask Claude a deep, open-ended philosophical question or put it in an emotionally complex situation. Capture your genuine, unscripted reaction. No editing needed — authenticity is the whole video.", cat:"Reactions", tool:"Claude", viral:true, diff:"easy" },
+  { title:"The scariest thing I asked Claude — and what it said", desc:"Push Claude's limits with dark hypotheticals, existential questions, or uncomfortable truths. The answer will make viewers think for days — and share it immediately.", cat:"Reactions", tool:"Claude", viral:true, diff:"easy" },
+  { title:"I told AI my life story — here's what it said about me", desc:"Write a detailed biography of your life and feed it to Claude. Ask it to analyze your patterns, personality, and likely future. Raw, personal, and endlessly watchable.", cat:"Reactions", tool:"Claude", viral:true, diff:"easy" },
+  { title:"AI analyzed my social media — and exposed who I really am", desc:"Copy your best and worst posts into Claude and ask for a psychological profile. The accuracy is unsettling in the best way — and immediately shareable.", cat:"Reactions", tool:"Claude", viral:true, diff:"easy" },
+  { title:"Can AI feel emotions? I tested Claude for an hour", desc:"Probe Claude with emotional scenarios, personal stories, and hard questions about consciousness. Analyze its responses for genuine empathy, deflection, or something stranger.", cat:"Reactions", tool:"Claude", viral:true, diff:"easy" },
+  { title:"The AI that predicted my future — and was weirdly right", desc:"Use Claude to make probabilistic predictions about your career, relationships, and finances in 5 years. Revisit with a follow-up video later. Built-in sequel content.", cat:"Reactions", tool:"Claude", viral:true, diff:"easy" },
+  { title:"I let AI be my life coach for one day — brutal honesty", desc:"Ask Claude to coach you through your single biggest challenge. No filters. Just honest questions and hard feedback. Emotionally compelling for any audience.", cat:"Reactions", tool:"Claude", viral:true, diff:"easy" },
+  { title:"AI read my journal and here's what it found", desc:"Paste anonymized journal entries into Claude and ask it to identify recurring patterns, hidden fears, and growth opportunities. Intimate, relatable, and surprisingly accurate.", cat:"Reactions", tool:"Claude", viral:true, diff:"easy" },
+  { title:"I asked AI what my biggest mistake was — and it was right", desc:"Describe your biggest regret to Claude in full detail. Ask it to analyze what went wrong and what you could have done differently. Vulnerable storytelling that resonates.", cat:"Reactions", tool:"Claude", viral:true, diff:"easy" },
+  { title:"AI described my personality just from my writing style", desc:"Feed Claude a sample of your own writing — texts, emails, old essays — and ask it to profile your personality. The results are eerily accurate and conversation-starting.", cat:"Reactions", tool:"Claude", viral:true, diff:"easy" },
+  { title:"I showed my parents AI for the first time — their reaction", desc:"Film an unscripted session where a parent or grandparent interacts with AI for the very first time. Pure, genuine, unedited reaction content. This format never gets old.", cat:"Reactions", tool:"ChatGPT", viral:true, diff:"easy" },
+  { title:"AI wrote my breakup text — my ex responded better than ever", desc:"Give Claude the full context, let it craft the message, and document the conversation that followed. Emotional, relatable, and real — exactly what keeps people watching.", cat:"Reactions", tool:"Claude", viral:true, diff:"easy" },
+  { title:"I asked AI to judge my cooking — it was not kind", desc:"Photograph your home-cooked meal and describe it to Claude in full detail. Ask for an honest restaurant-style critique. Funny, humble, and food content always performs.", cat:"Reactions", tool:"Claude", viral:true, diff:"easy" },
+  { title:"What happens when AI writes a speech for your wedding?", desc:"Generate a best man or maid of honor speech using Claude. Read it aloud with real emotion. Have someone who knows the couple rate how personal it actually feels.", cat:"Reactions", tool:"Claude", viral:true, diff:"medEasy" },
+  { title:"AI told me what career I should actually be in", desc:"Describe your skills, values, interests, and current job to Claude. Ask it what you should really be doing with your life. Gets people thinking — and tagging their friends.", cat:"Reactions", tool:"Claude", viral:true, diff:"easy" },
+  { title:"I asked AI to roast me — it went further than I expected", desc:"Give Claude your social media presence, job title, and bio and ask for a no-mercy roast. React live. The self-deprecating format is one of the most shareable on any platform.", cat:"Reactions", tool:"Claude", viral:true, diff:"easy" },
+  { title:"AI read my texts and told me about my relationship", desc:"Paste anonymized texts from a friendship or relationship into Claude and ask it to identify communication patterns. The observations are uncomfortably accurate.", cat:"Reactions", tool:"Claude", viral:true, diff:"easy" },
+  { title:"I let AI interview me for my dream job — here's how it went", desc:"Set up Claude as a tough interviewer for your actual dream position. Record the session. React to how hard the questions are and what you learned about yourself.", cat:"Reactions", tool:"Claude", viral:false, diff:"easy" },
 
-  // ── CHALLENGES ──
-  { title: "Can AI pass a job interview for me?", desc: "Feed Claude the job description and prep questions. Play its answers live in a mock interview setting — or use them in a real one and document results.", cat: "Challenges", tool: "Claude", viral: true },
-  { title: "AI vs. human: Who writes funnier tweets?", desc: "Generate 10 tweets with Claude and 10 yourself. Post them from the same account alternating each day. Reveal which set performed better after 10 days.", cat: "Challenges", tool: "Claude", viral: true },
-  { title: "Can AI write a better Tinder bio than me?", desc: "Compare your real bio to Claude's version with real data — match rate, conversation quality, and response speed over one week each.", cat: "Challenges", tool: "Claude", viral: true },
-  { title: "I challenged AI to beat me at chess — and lost", desc: "Use a free AI chess tool, have Claude explain each move in plain English, and document your defeats with genuine frustration.", cat: "Challenges", tool: "Claude + Chess.com", viral: false },
-  { title: "Can AI solve my biggest personal problem in 24 hours?", desc: "State a real, significant problem to Claude and commit to following every step of its plan for 24 hours. Document results honestly.", cat: "Challenges", tool: "Claude", viral: true },
-  { title: "I bet my friend AI would outwrite them — they lost", desc: "Challenge a writer friend to a head-to-head: same prompt, 30 minutes, then blind judging by your audience. Friendly competition drives massive engagement.", cat: "Challenges", tool: "Claude", viral: true },
-  { title: "24 hours using only AI for every decision I make", desc: "Every decision — what to eat, what to wear, how to respond to a text — goes through Claude. Document every ridiculous and occasionally wise outcome.", cat: "Challenges", tool: "Claude", viral: true },
-  { title: "Can AI teach me a language in one week?", desc: "Use free AI tools (Claude + Duolingo) to learn the basics of a new language in 7 days. Take a real test at the end and show your score.", cat: "Challenges", tool: "Claude + Duolingo", viral: false },
-  { title: "AI tried to write a viral post for me — let's see the numbers", desc: "Have Claude engineer the perfect viral post formula, execute it on your account, and report back 48 hours later with real analytics.", cat: "Challenges", tool: "Claude", viral: true },
-  { title: "I hired AI as my personal trainer for 30 days", desc: "Claude designs your workout plan, tracks progress, and adjusts the routine weekly. Document your physique and performance at the start and end.", cat: "Challenges", tool: "Claude", viral: true },
-  { title: "Can AI ace a college exam better than a student?", desc: "Take a real past exam paper and submit it to Claude. Grade its answers against the answer key. Compare to a real student's score.", cat: "Challenges", tool: "Claude", viral: true },
-  { title: "I let AI write my college application essay — here's the result", desc: "Give Claude your real background, achievements, and dream school. Generate the essay and have a college counselor review it without knowing it's AI.", cat: "Challenges", tool: "Claude", viral: true },
-  { title: "Can I build a profitable side hustle using only free AI tools?", desc: "30-day challenge: use Claude for strategy, Canva for design, and free platforms to launch. Track every dollar earned and document everything.", cat: "Challenges", tool: "Claude + Canva", viral: true },
-  { title: "AI helped me lose 10 pounds in 30 days — here's the plan", desc: "Claude designs a nutrition and exercise plan. You follow it exactly. Document weekly weigh-ins, energy levels, and what the AI got right and wrong.", cat: "Challenges", tool: "Claude", viral: true },
-  { title: "I used AI to land a freelance client in 48 hours", desc: "Claude writes the cold outreach email, the proposal, and the pricing strategy. Document the responses and whether you actually close a deal.", cat: "Challenges", tool: "Claude", viral: true },
-  { title: "Can AI make me sound like a professional musician?", desc: "With zero musical training, use Suno to generate a full track from a simple description. Perform the lyrics on camera over the AI instrumental.", cat: "Challenges", tool: "Suno AI", viral: true },
-  { title: "AI tried to write my stand-up comedy set — I performed it", desc: "Ask Claude to write a 5-minute stand-up set based on your real life. Perform it at an open mic or with friends. Film the reactions.", cat: "Challenges", tool: "Claude", viral: true },
-  { title: "I gave AI $0 and told it to make me money", desc: "Claude uses only free tools and platforms to build a monetization strategy from absolute zero. Follow every step for one week and report the results.", cat: "Challenges", tool: "Claude", viral: true }
+  // ── CHALLENGES (20) ──
+  { title:"Can AI pass a job interview for me?", desc:"Feed Claude the job description and a list of likely interview questions. Play its answers live in a mock interview — or use them in a real one and document the outcome.", cat:"Challenges", tool:"Claude", viral:true, diff:"medEasy" },
+  { title:"AI vs. human: Who writes funnier tweets?", desc:"Generate 10 tweets with Claude and 10 yourself. Post them alternating every day. Reveal which set performed better after 10 days with real analytics. Transparent and engaging.", cat:"Challenges", tool:"Claude", viral:true, diff:"medium" },
+  { title:"Can AI write a better Tinder bio than me?", desc:"Compare your real bio to Claude's version with actual data — match rate and conversation quality tracked for one week each. People will watch to the very last chart.", cat:"Challenges", tool:"Claude", viral:true, diff:"medium" },
+  { title:"I challenged AI to beat me at chess — I lost badly", desc:"Use a free AI chess engine, have Claude narrate each move in plain English, and document your defeats with completely genuine frustration. Funny and educational.", cat:"Challenges", tool:"Claude + Chess.com", viral:false, diff:"medEasy" },
+  { title:"Can AI solve my biggest personal problem in 24 hours?", desc:"State a real, significant life problem to Claude and commit to following every step of its action plan for exactly 24 hours. Document results honestly and without editing.", cat:"Challenges", tool:"Claude", viral:true, diff:"medium" },
+  { title:"I bet my friend AI would outwrite them — they lost", desc:"Challenge a writer friend to the same prompt with 30 minutes each. Blind judging by your audience. Friendly competition drives massive comment engagement.", cat:"Challenges", tool:"Claude", viral:true, diff:"medEasy" },
+  { title:"24 hours using only AI for every decision I make", desc:"Every choice — what to eat, what to wear, how to reply to a text — goes through Claude. Document every ridiculous, wise, and occasionally baffling outcome.", cat:"Challenges", tool:"Claude", viral:true, diff:"medium" },
+  { title:"Can AI teach me a language in one week?", desc:"Use free AI tools — Claude and Duolingo — to learn the basics of a new language in 7 days. Take a real proficiency test at the end and show your actual score.", cat:"Challenges", tool:"Claude + Duolingo", viral:false, diff:"medium" },
+  { title:"AI tried to write a viral post for me — let's see the real numbers", desc:"Have Claude engineer the perfect viral post: hook, format, topic, timing. Execute it. Report back 48 hours later with real reach, shares, and follower growth data.", cat:"Challenges", tool:"Claude", viral:true, diff:"medEasy" },
+  { title:"I hired AI as my personal trainer for 30 days", desc:"Claude designs your full workout plan, tracks your progress week by week, and adjusts based on feedback. Document physique and performance at start and end.", cat:"Challenges", tool:"Claude", viral:true, diff:"medium" },
+  { title:"Can AI ace a college exam better than a student?", desc:"Take a real past exam paper and submit it to Claude. Grade its answers against the official answer key. Compare to a real student's score. Professors will share this.", cat:"Challenges", tool:"Claude", viral:true, diff:"medEasy" },
+  { title:"I let AI write my college application essay — here's the result", desc:"Give Claude your real background, achievements, and dream school. Generate the essay. Have a college counselor review it without knowing it was written by AI.", cat:"Challenges", tool:"Claude", viral:true, diff:"medEasy" },
+  { title:"Can I build a profitable side hustle using only free AI tools?", desc:"30-day challenge: Claude for strategy, Canva for design, free platforms to launch. Track every dollar earned or lost. Document everything from first prompt to first sale.", cat:"Challenges", tool:"Claude + Canva", viral:true, diff:"medium" },
+  { title:"I used AI to land a freelance client in 48 hours", desc:"Claude writes the cold outreach email, the proposal, and the pricing strategy. Document every response and whether you actually close a paying deal. Entrepreneurs will save this.", cat:"Challenges", tool:"Claude", viral:true, diff:"medium" },
+  { title:"Can AI make me sound like a professional musician?", desc:"With zero musical training, use Suno to generate a full track from a description. Write and perform the lyrics on camera over the AI instrumental. Raw, fun, and musical.", cat:"Challenges", tool:"Suno AI", viral:true, diff:"medEasy" },
+  { title:"AI tried to write my stand-up comedy set — I performed it", desc:"Ask Claude to write a 5-minute stand-up set based entirely on your real life. Perform it at an open mic or with friends. Film the completely uncensored reactions.", cat:"Challenges", tool:"Claude", viral:true, diff:"medium" },
+  { title:"I gave AI $0 and told it to help me make money", desc:"Claude uses only free tools and platforms to build a zero-cost monetization strategy. Follow every step for one week and report results with complete transparency.", cat:"Challenges", tool:"Claude", viral:true, diff:"medium" },
+  { title:"AI helped me study for a test in one night — did I pass?", desc:"Use NotebookLM and Claude to compress a semester of material into one intense AI-guided night of study. Take the test the next day. Show the grade. No hiding the result.", cat:"Challenges", tool:"Claude + NotebookLM", viral:true, diff:"medEasy" },
+  { title:"I used AI to make a short film — start to finish", desc:"Claude writes the script, ElevenLabs handles narration, Runway animates scenes, Descript edits the final cut. All free tiers. Document every step of the production.", cat:"Challenges", tool:"Multiple", viral:true, diff:"medium" },
+  { title:"I used AI to write and publish a blog post in 30 minutes", desc:"Pick a topic, let Claude draft the full post, use Canva for the header image, and publish it live. Track how much traffic it gets in the first 24 hours.", cat:"Challenges", tool:"Claude + Canva", viral:false, diff:"medEasy" }
 ];
 
 const grid = document.getElementById('grid');
 const statsEl = document.getElementById('stats-count');
 const searchEl = document.getElementById('search');
 const sortEl = document.getElementById('sort');
-const filterBtns = document.querySelectorAll('.filter-btn');
+const catBtns = document.querySelectorAll('.filter-btn');
+const diffBtns = document.querySelectorAll('.diff-btn');
 
 let activeCat = 'all';
+let activeDiff = 'all';
 let searchTerm = '';
 let sortMode = 'default';
+
+const diffOrder = { easy:0, medEasy:1, medium:2 };
+const diffLabel = { easy:'Easy', medEasy:'Medium Easy', medium:'Medium' };
 
 function render() {
   let list = [...ideas];
@@ -512,13 +318,18 @@ function render() {
     list = list.filter(i => i.cat === activeCat);
   }
 
+  if (activeDiff !== 'all') {
+    list = list.filter(i => i.diff === activeDiff);
+  }
+
   if (searchTerm) {
     const q = searchTerm.toLowerCase();
     list = list.filter(i =>
       i.title.toLowerCase().includes(q) ||
       i.desc.toLowerCase().includes(q) ||
       i.tool.toLowerCase().includes(q) ||
-      i.cat.toLowerCase().includes(q)
+      i.cat.toLowerCase().includes(q) ||
+      diffLabel[i.diff].toLowerCase().includes(q)
     );
   }
 
@@ -526,53 +337,57 @@ function render() {
     list.sort((a, b) => a.title.localeCompare(b.title));
   } else if (sortMode === 'cat') {
     list.sort((a, b) => a.cat.localeCompare(b.cat) || ideas.indexOf(a) - ideas.indexOf(b));
+  } else if (sortMode === 'diff') {
+    list.sort((a, b) => diffOrder[a.diff] - diffOrder[b.diff] || ideas.indexOf(a) - ideas.indexOf(b));
   }
 
   const count = list.length;
   statsEl.innerHTML = `Showing <strong>${count}</strong> idea${count !== 1 ? 's' : ''}`;
 
   if (count === 0) {
-    grid.innerHTML = '<div class="empty"><p>Nothing found</p><p>Try a different search or filter.</p></div>';
+    grid.innerHTML = '<div class="empty"><p>Nothing found</p><p>Try adjusting your filters or search term.</p></div>';
     return;
   }
 
-  grid.innerHTML = list.map((idea) => {
+  grid.innerHTML = list.map(idea => {
     const origNum = ideas.indexOf(idea) + 1;
-    return `
-      <div class="card">
-        <div class="card-top">
-          <span class="card-num">${origNum}</span>
-          <span class="card-title">${idea.title}</span>
-        </div>
-        <p class="card-desc">${idea.desc}</p>
-        <div class="card-footer">
-          <span class="badge badge-cat-${idea.cat}">${idea.cat}</span>
-          <span class="badge badge-tool">${idea.tool}</span>
-          ${idea.viral ? '<span class="badge badge-viral">🔥 Viral</span>' : ''}
-        </div>
+    return `<div class="card">
+      <div class="card-top">
+        <span class="card-num">${origNum}</span>
+        <span class="card-title">${idea.title}</span>
       </div>
-    `;
+      <p class="card-desc">${idea.desc}</p>
+      <div class="card-footer">
+        <span class="badge badge-cat-${idea.cat}">${idea.cat}</span>
+        <span class="badge badge-diff badge-diff-${idea.diff}">${diffLabel[idea.diff]}</span>
+        <span class="badge badge-tool">${idea.tool}</span>
+        ${idea.viral ? '<span class="badge badge-viral">🔥 Viral</span>' : ''}
+      </div>
+    </div>`;
   }).join('');
 }
 
-filterBtns.forEach(btn => {
+catBtns.forEach(btn => {
   btn.addEventListener('click', () => {
-    filterBtns.forEach(b => b.classList.remove('active'));
+    catBtns.forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     activeCat = btn.dataset.cat;
     render();
   });
 });
 
-searchEl.addEventListener('input', e => {
-  searchTerm = e.target.value;
-  render();
+diffBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    diffBtns.forEach(b => b.classList.remove('active-all','active-easy','active-medEasy','active-medium'));
+    const d = btn.dataset.diff;
+    activeDiff = d;
+    btn.classList.add(d === 'all' ? 'active-all' : `active-${d}`);
+    render();
+  });
 });
 
-sortEl.addEventListener('change', e => {
-  sortMode = e.target.value;
-  render();
-});
+searchEl.addEventListener('input', e => { searchTerm = e.target.value; render(); });
+sortEl.addEventListener('change', e => { sortMode = e.target.value; render(); });
 
 render();
 </script>
